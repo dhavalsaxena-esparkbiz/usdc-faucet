@@ -14,7 +14,7 @@ services:
       - key: FAUCET_PRIVATE_KEY
         sync: false
       - key: DRIP_AMOUNT
-        value: "100"
+        value: "1000"
       - key: DRIP_DECIMALS
         value: "6"
       - key: COOLDOWN_HOURS
