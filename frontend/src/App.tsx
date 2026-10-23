@@ -137,12 +137,6 @@ export default function App() {
           </p>
         )}
 
-        {info && (
-          <footer className={styles.footer}>
-            <span className={styles.muted}>Token contract</span>
-            <code className={styles.mono}>{info.contractAddress}</code>
-          </footer>
-        )}
       </main>
     </div>
   );

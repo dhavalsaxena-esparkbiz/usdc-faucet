@@ -15,7 +15,5 @@ declare const styles: {
   readonly cooldown: string;
   readonly success: string;
   readonly error: string;
-  readonly footer: string;
-  readonly mono: string;
 };
 export default styles;
