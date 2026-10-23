@@ -66,6 +66,7 @@ export default function App() {
         <div>
           <h1 className={styles.title}>USDC Faucet</h1>
           <p className={styles.subtitle}>Get test USDC for development and demos</p>
+          <p className={styles.credit}>Developed by Dhaval Saxena</p>
         </div>
       </header>
 
@@ -139,6 +140,8 @@ export default function App() {
           </footer>
         )}
       </main>
+
+      <p className={styles.siteCredit}>Developed by Dhaval Saxena</p>
     </div>
   );
 }
