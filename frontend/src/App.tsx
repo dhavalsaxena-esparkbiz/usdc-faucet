@@ -98,6 +98,10 @@ export default function App() {
               <span className={styles.statLabel}>Chain ID</span>
               <strong>{info.chainId}</strong>
             </li>
+            <li>
+              <span className={styles.statLabel}>Wallets funded</span>
+              <strong>{info.totalWalletsFunded.toLocaleString()}</strong>
+            </li>
           </ul>
         ) : (
           <p className={styles.muted}>Loading faucet details…</p>

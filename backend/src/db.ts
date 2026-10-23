@@ -38,3 +38,8 @@ export function recordDrip(
      ON CONFLICT(address) DO UPDATE SET last_drip_at = excluded.last_drip_at, tx_hash = excluded.tx_hash`
   ).run(address.toLowerCase(), at, txHash);
 }
+
+export function countFundedWallets(db: Database.Database): number {
+  const row = db.prepare("SELECT COUNT(*) AS n FROM drips").get() as { n: number };
+  return row.n;
+}

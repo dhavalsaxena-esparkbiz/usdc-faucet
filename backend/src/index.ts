@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 import { isAddress } from "viem";
 import { z } from "zod";
 import { loadConfig } from "./config.js";
-import { getLastDrip, openDb, recordDrip } from "./db.js";
+import { countFundedWallets, getLastDrip, openDb, recordDrip } from "./db.js";
 import { createFaucetClients, getFaucetInfo, sendDrip } from "./faucet.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -44,7 +44,10 @@ app.get("/api/health", (_req, res) => {
 app.get("/api/info", async (_req, res) => {
   try {
     const info = await getFaucetInfo(clients);
-    res.json(info);
+    res.json({
+      ...info,
+      totalWalletsFunded: countFundedWallets(db),
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Failed to load faucet info" });

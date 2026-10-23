@@ -10,6 +10,7 @@ export type FaucetInfo = {
   dripAmountFormatted: string;
   faucetTokenBalance: string;
   mintMode?: boolean;
+  totalWalletsFunded: number;
   cooldownHours: number;
 };
 
