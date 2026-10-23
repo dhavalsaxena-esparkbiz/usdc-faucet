@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: usdc-faucet
+    runtime: docker
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: RPC_URL
+        sync: false
+      - key: CHAIN_ID
+        value: "80002"
+      - key: USDC_CONTRACT_ADDRESS
+        value: "0xb488571cad90C75a60C5CC533c1a8E0b0F7B50f3"
+      - key: FAUCET_PRIVATE_KEY
+        sync: false
+      - key: DRIP_AMOUNT
+        value: "100"
+      - key: DRIP_DECIMALS
+        value: "6"
+      - key: COOLDOWN_HOURS
+        value: "24"
+      - key: PORT
+        value: "3000"
+      - key: CORS_ORIGIN
+        value: "*"

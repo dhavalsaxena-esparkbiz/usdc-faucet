@@ -1,0 +1,20 @@
+declare const styles: {
+  readonly page: string;
+  readonly header: string;
+  readonly logoMark: string;
+  readonly title: string;
+  readonly subtitle: string;
+  readonly card: string;
+  readonly stats: string;
+  readonly statLabel: string;
+  readonly label: string;
+  readonly input: string;
+  readonly primary: string;
+  readonly muted: string;
+  readonly cooldown: string;
+  readonly success: string;
+  readonly error: string;
+  readonly footer: string;
+  readonly mono: string;
+};
+export default styles;
