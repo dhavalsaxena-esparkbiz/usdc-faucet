@@ -140,8 +140,6 @@ export default function App() {
           </footer>
         )}
       </main>
-
-      <p className={styles.siteCredit}>Developed by Dhaval Saxena</p>
     </div>
   );
 }

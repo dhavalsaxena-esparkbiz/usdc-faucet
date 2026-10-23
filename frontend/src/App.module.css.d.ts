@@ -5,7 +5,6 @@ declare const styles: {
   readonly title: string;
   readonly subtitle: string;
   readonly credit: string;
-  readonly siteCredit: string;
   readonly card: string;
   readonly stats: string;
   readonly statLabel: string;
