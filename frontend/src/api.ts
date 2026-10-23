@@ -11,7 +11,7 @@ export type FaucetInfo = {
   faucetTokenBalance: string;
   mintMode?: boolean;
   totalWalletsFunded: number;
-  cooldownHours: number;
+  cooldownMinutes: number;
 };
 
 export async function fetchInfo(): Promise<FaucetInfo> {

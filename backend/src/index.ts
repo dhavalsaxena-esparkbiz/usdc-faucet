@@ -72,7 +72,7 @@ app.post("/api/drip", async (req, res) => {
   }
 
   const normalized = address.toLowerCase();
-  const cooldownMs = config.COOLDOWN_HOURS * 60 * 60 * 1000;
+  const cooldownMs = config.COOLDOWN_MINUTES * 60 * 1000;
   const last = getLastDrip(db, normalized);
   const now = Date.now();
 
@@ -107,7 +107,7 @@ app.get("/api/cooldown/:address", (req, res) => {
     res.json({ canDrip: true });
     return;
   }
-  const cooldownMs = config.COOLDOWN_HOURS * 60 * 60 * 1000;
+  const cooldownMs = config.COOLDOWN_MINUTES * 60 * 1000;
   const elapsed = Date.now() - last;
   if (elapsed >= cooldownMs) {
     res.json({ canDrip: true });

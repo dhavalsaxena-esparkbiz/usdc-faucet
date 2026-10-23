@@ -41,7 +41,7 @@ See [`.env.example`](.env.example). Required:
 | `FAUCET_PRIVATE_KEY` | Server-only; never commit |
 | `DRIP_AMOUNT` | Human-readable amount per drip |
 | `DRIP_DECIMALS` | Usually `6` for USDC-like tokens |
-| `COOLDOWN_HOURS` | Min hours between drips per address |
+| `COOLDOWN_MINUTES` | Min minutes between drips per address |
 | `CORS_ORIGIN` | Frontend origin(s), comma-separated; use your public URL in prod |
 
 Optional: `DATABASE_PATH` (default `backend/data/faucet.db`), `VITE_API_URL` (only if frontend is hosted on another domain).

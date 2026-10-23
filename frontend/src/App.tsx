@@ -81,7 +81,7 @@ export default function App() {
             </li>
             <li>
               <span className={styles.statLabel}>Cooldown</span>
-              <strong>{info.cooldownHours}h / wallet</strong>
+              <strong>{info.cooldownMinutes} min / wallet</strong>
             </li>
             <li>
               <span className={styles.statLabel}>

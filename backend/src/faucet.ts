@@ -82,7 +82,7 @@ export async function getFaucetInfo(clients: ReturnType<typeof createFaucetClien
     dripAmountFormatted: formatUnits(dripAmountWei, config.DRIP_DECIMALS),
     faucetTokenBalance: formatUnits(balance, decimals),
     mintMode: false,
-    cooldownHours: config.COOLDOWN_HOURS,
+    cooldownMinutes: config.COOLDOWN_MINUTES,
   };
 }
 

@@ -7,7 +7,7 @@ const envSchema = z.object({
   FAUCET_PRIVATE_KEY: z.string().regex(/^0x[a-fA-F0-9]{64}$/),
   DRIP_AMOUNT: z.coerce.number().positive(),
   DRIP_DECIMALS: z.coerce.number().int().min(0).max(18).default(6),
-  COOLDOWN_HOURS: z.coerce.number().positive().default(24),
+  COOLDOWN_MINUTES: z.coerce.number().positive().default(30),
   PORT: z.coerce.number().int().positive().default(3000),
   CORS_ORIGIN: z.string().default("*"),
 });
