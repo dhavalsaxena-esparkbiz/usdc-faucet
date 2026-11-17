@@ -4,6 +4,7 @@ import { fetchCooldown, fetchInfo, requestDrip, type FaucetInfo } from "./api";
 import {
   ArrowRightIcon,
   BoltIcon,
+  ClipboardIcon,
   ClockIcon,
   CodeIcon,
   DropletIcon,
@@ -131,7 +132,7 @@ export default function App() {
                 <span className={`${styles.statIcon} ${styles.statIconBlue}`}>
                   <BoltIcon />
                 </span>
-                <span className={styles.statLabel}>Per request</span>
+                <span className={styles.statLabel}>Per Request</span>
                 <strong className={styles.statValue}>
                   {info.dripAmount.toLocaleString()} {info.tokenSymbol}
                 </strong>
@@ -147,7 +148,7 @@ export default function App() {
                 <span className={`${styles.statIcon} ${styles.statIconGreen}`}>
                   <WalletIcon />
                 </span>
-                <span className={styles.statLabel}>Faucet balance</span>
+                <span className={styles.statLabel}>Faucet Balance</span>
                 <strong className={styles.statValue} title={balanceLabel}>
                   {balanceLabel} {info.tokenSymbol}
                 </strong>
@@ -164,13 +165,13 @@ export default function App() {
             <p className={styles.loadingText}>Loading faucet details…</p>
           )}
 
-          <div className={styles.walletBlock}>
+          <div className={styles.walletPanel}>
             <div className={styles.walletHeading}>
               <span className={styles.walletHeadingIcon}>
                 <WalletIcon />
               </span>
               <div>
-                <h2 className={styles.walletTitle}>Your wallet address</h2>
+                <h2 className={styles.walletTitle}>Your Wallet Address</h2>
                 <p className={styles.walletHint}>Paste your wallet address to request USDC</p>
               </div>
             </div>
@@ -187,11 +188,12 @@ export default function App() {
               />
               <button
                 type="button"
-                className={styles.pasteBtn}
+                className={styles.inputPasteBtn}
                 onClick={() => pasteFromClipboard()}
                 title="Paste from clipboard"
+                aria-label="Paste from clipboard"
               >
-                Paste
+                <ClipboardIcon />
               </button>
             </div>
 
@@ -203,14 +205,19 @@ export default function App() {
               disabled={loading || !info}
               onClick={() => void onDrip()}
             >
+              <DropletIcon className={styles.ctaDrop} />
               <span className={styles.ctaLabel}>{loading ? "Sending…" : "Request USDC"}</span>
               <ArrowRightIcon className={styles.ctaArrow} />
-              <DropletIcon className={styles.ctaDrop} />
             </button>
-            <p className={styles.powered}>
-              <DropletIcon className={styles.poweredIcon} />
-              Powered by USDC
-            </p>
+
+            <div className={styles.poweredRow}>
+              <span className={styles.poweredLine} aria-hidden />
+              <p className={styles.powered}>
+                <DropletIcon className={styles.poweredIcon} />
+                Powered by USDC
+              </p>
+              <span className={styles.poweredLine} aria-hidden />
+            </div>
           </div>
 
           {status && (

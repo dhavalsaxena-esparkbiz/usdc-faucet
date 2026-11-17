@@ -128,6 +128,23 @@ export function CodeIcon({ className }: IconProps) {
   );
 }
 
+export function ClipboardIcon({ className }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
+      <rect x="8" y="2" width="8" height="4" rx="1" stroke="currentColor" strokeWidth="1.75" />
+      <rect
+        x="5"
+        y="6"
+        width="14"
+        height="16"
+        rx="2"
+        stroke="currentColor"
+        strokeWidth="1.75"
+      />
+    </svg>
+  );
+}
+
 export function GlobeIcon({ className }: IconProps) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
