@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { isAddress } from "viem";
 import { fetchCooldown, fetchInfo, requestDrip, type FaucetInfo } from "./api";
+import { SuccessCelebration } from "./SuccessCelebration";
 import {
   ArrowRightIcon,
   BoltIcon,
@@ -34,6 +35,11 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<{ type: "ok" | "err"; text: string } | null>(null);
   const [cooldownText, setCooldownText] = useState<string | null>(null);
+  const [celebration, setCelebration] = useState<{
+    amount: number;
+    symbol: string;
+    txHash: string;
+  } | null>(null);
 
   useEffect(() => {
     fetchInfo()
@@ -66,11 +72,14 @@ export default function App() {
       return;
     }
     setLoading(true);
+    setCelebration(null);
     try {
       const { txHash } = await requestDrip(address);
-      setStatus({
-        type: "ok",
-        text: `Sent! Transaction: ${txHash.slice(0, 10)}…${txHash.slice(-8)}`,
+      setStatus(null);
+      setCelebration({
+        amount: info!.dripAmount,
+        symbol: info!.tokenSymbol,
+        txHash,
       });
       await refreshCooldown(address);
       const updated = await fetchInfo();
@@ -241,6 +250,15 @@ export default function App() {
           ))}
         </footer>
       </div>
+
+      {celebration && (
+        <SuccessCelebration
+          amount={celebration.amount}
+          symbol={celebration.symbol}
+          txHash={celebration.txHash}
+          onClose={() => setCelebration(null)}
+        />
+      )}
     </div>
   );
 }
