@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="USDC Faucet">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b6dff" />
+      <stop offset="100%" stop-color="#5b4cff" />
+    </linearGradient>
+    <linearGradient id="drop" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#e0f2fe" />
+      <stop offset="100%" stop-color="#7dd3fc" />
+    </linearGradient>
+  </defs>
+  <rect width="32" height="32" rx="8" fill="url(#bg)" />
+  <path
+    d="M16 7c4 5.2 8 10.2 8 15.2a8 8 0 1 1-16 0C8 17.2 12 12.2 16 7Z"
+    fill="url(#drop)"
+  />
+</svg>
