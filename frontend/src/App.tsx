@@ -95,9 +95,8 @@ export default function App() {
 
   return (
     <div className={styles.shell}>
-      <div className={styles.bgMesh} aria-hidden />
-      <div className={styles.bgGlowLeft} aria-hidden />
-      <div className={styles.bgGlowRight} aria-hidden />
+      <div className={styles.bgImage} aria-hidden />
+      <div className={styles.bgScrim} aria-hidden />
 
       <div className={styles.layout}>
         <header className={styles.topBar}>

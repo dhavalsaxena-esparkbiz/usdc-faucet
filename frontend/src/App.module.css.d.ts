@@ -1,8 +1,7 @@
 declare const styles: {
   readonly shell: string;
-  readonly bgMesh: string;
-  readonly bgGlowLeft: string;
-  readonly bgGlowRight: string;
+  readonly bgImage: string;
+  readonly bgScrim: string;
   readonly layout: string;
   readonly topBar: string;
   readonly brand: string;

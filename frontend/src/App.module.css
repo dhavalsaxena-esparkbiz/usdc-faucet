@@ -4,47 +4,45 @@
   overflow-x: hidden;
 }
 
-.bgMesh {
+.bgImage {
   position: fixed;
   inset: 0;
   z-index: 0;
-  background:
-    radial-gradient(ellipse 55% 45% at 15% 20%, rgba(0, 120, 255, 0.22), transparent 55%),
-    radial-gradient(ellipse 50% 40% at 85% 30%, rgba(160, 32, 240, 0.18), transparent 50%),
-    radial-gradient(ellipse 70% 50% at 50% 100%, rgba(20, 40, 100, 0.5), transparent 60%),
-    linear-gradient(165deg, #030712 0%, #050a1f 35%, #0a1030 70%, #030712 100%);
+  background: #030712 url("/bg.jpg") center center / cover no-repeat;
 }
 
-.bgGlowLeft,
-.bgGlowRight {
+@media (max-width: 640px) {
+  .bgImage {
+    background-position: center top;
+    background-size: auto 100%;
+  }
+}
+
+.bgScrim {
   position: fixed;
+  inset: 0;
   z-index: 0;
-  width: 280px;
-  height: 280px;
-  border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.35;
   pointer-events: none;
-}
-
-.bgGlowLeft {
-  left: -80px;
-  top: 40%;
-  background: #0078ff;
-}
-
-.bgGlowRight {
-  right: -60px;
-  top: 25%;
-  background: #a020f0;
+  background: radial-gradient(
+    ellipse 75% 70% at 50% 42%,
+    rgba(3, 7, 22, 0.2) 0%,
+    rgba(3, 7, 22, 0.55) 45%,
+    rgba(3, 7, 22, 0.82) 100%
+  );
 }
 
 .layout {
   position: relative;
   z-index: 1;
-  max-width: 920px;
+  max-width: 580px;
   margin: 0 auto;
   padding: 1.5rem 1.25rem 3rem;
+}
+
+@media (min-width: 1200px) {
+  .layout {
+    max-width: 640px;
+  }
 }
 
 .topBar {
@@ -159,8 +157,8 @@
   position: relative;
   padding: 1.5rem 1.25rem 1.75rem;
   border-radius: 24px;
-  background: rgba(12, 18, 42, 0.55);
-  backdrop-filter: blur(20px);
+  background: rgba(8, 14, 36, 0.72);
+  backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(0, 150, 255, 0.35);
   box-shadow:
