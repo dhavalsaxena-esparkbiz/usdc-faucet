@@ -11,7 +11,11 @@ declare const styles: {
   readonly topTagline: string;
   readonly creditBadge: string;
   readonly hero: string;
+  readonly heroTitleRow: string;
+  readonly heroLine: string;
   readonly heroTitle: string;
+  readonly heroUsdc: string;
+  readonly heroFaucet: string;
   readonly heroSubtitle: string;
   readonly glassCard: string;
   readonly loadingText: string;

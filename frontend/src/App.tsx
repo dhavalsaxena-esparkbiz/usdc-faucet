@@ -113,7 +113,14 @@ export default function App() {
         </header>
 
         <section className={styles.hero}>
-          <h1 className={styles.heroTitle}>USDC Faucet</h1>
+          <div className={styles.heroTitleRow}>
+            <span className={styles.heroLine} aria-hidden />
+            <h1 className={styles.heroTitle}>
+              <span className={styles.heroUsdc}>USDC</span>{" "}
+              <span className={styles.heroFaucet}>Faucet</span>
+            </h1>
+            <span className={styles.heroLine} aria-hidden />
+          </div>
           <p className={styles.heroSubtitle}>Request free USDC on the faucet and start building!</p>
         </section>
 

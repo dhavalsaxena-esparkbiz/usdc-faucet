@@ -127,25 +127,68 @@
 .hero {
   text-align: center;
   margin-bottom: 1.75rem;
-  padding: 0 0.5rem;
+  padding: 0 0.25rem;
+}
+
+.heroTitleRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.75rem, 3vw, 2rem);
+  margin-bottom: 0.65rem;
+}
+
+.heroLine {
+  display: block;
+  flex: 1 1 0;
+  max-width: 160px;
+  height: 2px;
+  border-radius: 1px;
+}
+
+.heroLine:first-of-type {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(140, 180, 255, 0.25) 35%,
+    rgba(167, 139, 250, 0.85) 100%
+  );
+}
+
+.heroLine:last-of-type {
+  background: linear-gradient(
+    270deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(140, 180, 255, 0.25) 35%,
+    rgba(167, 139, 250, 0.85) 100%
+  );
 }
 
 .heroTitle {
-  margin: 0 0 0.35rem;
-  font-size: clamp(2rem, 6vw, 2.75rem);
+  margin: 0;
+  font-size: clamp(1.85rem, 5.5vw, 2.65rem);
   font-weight: 800;
   letter-spacing: -0.03em;
-  background: linear-gradient(90deg, #fff 0%, #a5c8ff 45%, #e9d5ff 100%);
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+.heroUsdc {
+  color: #ffffff;
+}
+
+.heroFaucet {
+  background: linear-gradient(90deg, #7dd3fc 0%, #a78bfa 55%, #c084fc 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  text-shadow: 0 0 40px rgba(0, 120, 255, 0.25);
 }
 
 .heroSubtitle {
   margin: 0;
-  font-size: 1rem;
-  color: var(--muted);
+  font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+  color: rgba(226, 232, 240, 0.92);
+  font-weight: 400;
 }
 
 .glassCard {
