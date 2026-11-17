@@ -182,9 +182,9 @@
   }
 }
 
-@media (min-width: 840px) {
+@media (min-width: 720px) {
   .statsRow {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 

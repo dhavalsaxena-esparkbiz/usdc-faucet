@@ -11,7 +11,6 @@ import {
   LinkIcon,
   ShieldIcon,
   SparkIcon,
-  UsersIcon,
   WalletIcon,
 } from "./Icons";
 import styles from "./App.module.css";
@@ -152,13 +151,6 @@ export default function App() {
                 </span>
                 <span className={styles.statLabel}>Chain ID</span>
                 <strong className={styles.statValue}>{info.chainId}</strong>
-              </article>
-              <article className={styles.statTile}>
-                <span className={`${styles.statIcon} ${styles.statIconTeal}`}>
-                  <UsersIcon />
-                </span>
-                <span className={styles.statLabel}>Wallets funded</span>
-                <strong className={styles.statValue}>{info.totalWalletsFunded.toLocaleString()}</strong>
               </article>
             </div>
           ) : (
