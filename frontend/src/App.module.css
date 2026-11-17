@@ -24,25 +24,20 @@
   z-index: 0;
   pointer-events: none;
   background: radial-gradient(
-    ellipse 75% 70% at 50% 42%,
-    rgba(3, 7, 22, 0.2) 0%,
-    rgba(3, 7, 22, 0.55) 45%,
-    rgba(3, 7, 22, 0.82) 100%
+    ellipse 85% 75% at 50% 45%,
+    rgba(3, 7, 22, 0.12) 0%,
+    rgba(3, 7, 22, 0.4) 50%,
+    rgba(3, 7, 22, 0.72) 100%
   );
 }
 
 .layout {
   position: relative;
   z-index: 1;
-  max-width: 580px;
+  width: min(960px, 94vw);
+  max-width: 960px;
   margin: 0 auto;
   padding: 1.5rem 1.25rem 3rem;
-}
-
-@media (min-width: 1200px) {
-  .layout {
-    max-width: 640px;
-  }
 }
 
 .topBar {
@@ -155,7 +150,8 @@
 
 .glassCard {
   position: relative;
-  padding: 1.5rem 1.25rem 1.75rem;
+  width: 100%;
+  padding: 1.75rem 1.5rem 2rem;
   border-radius: 24px;
   background: rgba(8, 14, 36, 0.72);
   backdrop-filter: blur(16px);
