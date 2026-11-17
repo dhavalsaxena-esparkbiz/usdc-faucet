@@ -1,14 +1,8 @@
 :root {
   color-scheme: dark;
-  --bg: #0a0f1a;
-  --bg-card: #111827;
-  --border: rgba(148, 163, 184, 0.15);
+  --bg: #030712;
   --text: #f1f5f9;
   --muted: #94a3b8;
-  --accent: #2775ca;
-  --accent-hover: #1e5fad;
-  --success: #34d399;
-  --error: #f87171;
   font-family: "DM Sans", system-ui, sans-serif;
   line-height: 1.5;
 }
@@ -20,7 +14,7 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background: radial-gradient(ellipse 80% 60% at 50% -20%, #1e3a5f 0%, var(--bg) 55%);
+  background: var(--bg);
   color: var(--text);
 }
 

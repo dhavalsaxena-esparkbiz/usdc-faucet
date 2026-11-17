@@ -1,7 +1,32 @@
 import { useCallback, useEffect, useState } from "react";
 import { isAddress } from "viem";
 import { fetchCooldown, fetchInfo, requestDrip, type FaucetInfo } from "./api";
+import {
+  ArrowRightIcon,
+  BoltIcon,
+  ClockIcon,
+  CodeIcon,
+  DropletIcon,
+  GlobeIcon,
+  LinkIcon,
+  ShieldIcon,
+  SparkIcon,
+  UsersIcon,
+  WalletIcon,
+} from "./Icons";
 import styles from "./App.module.css";
+
+function formatCooldown(seconds: number): string {
+  if (seconds >= 3600) {
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    return `Next drip in ${h}h ${m}m`;
+  }
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  if (m > 0) return `Next drip in ${m}m`;
+  return `Next drip in ${s}s`;
+}
 
 export default function App() {
   const [info, setInfo] = useState<FaucetInfo | null>(null);
@@ -25,9 +50,7 @@ export default function App() {
     if (c.canDrip) {
       setCooldownText(null);
     } else if (c.retryAfterSeconds) {
-      const h = Math.floor(c.retryAfterSeconds / 3600);
-      const m = Math.floor((c.retryAfterSeconds % 3600) / 60);
-      setCooldownText(`Next drip available in ${h}h ${m}m`);
+      setCooldownText(formatCooldown(c.retryAfterSeconds));
     }
   }, []);
 
@@ -59,85 +82,160 @@ export default function App() {
     }
   }
 
+  function pasteFromClipboard() {
+    void navigator.clipboard.readText().then((text) => {
+      const trimmed = text.trim();
+      if (trimmed) setAddress(trimmed);
+    });
+  }
+
+  const balanceLabel = info
+    ? Number(info.faucetTokenBalance).toLocaleString(undefined, { maximumFractionDigits: 2 })
+    : "—";
+
   return (
-    <div className={styles.page}>
-      <header className={styles.header}>
-        <div className={styles.logoMark} aria-hidden />
-        <div>
-          <h1 className={styles.title}>USDC Faucet</h1>
-          <p className={styles.subtitle}>Get test USDC for development and demos</p>
-          <p className={styles.credit}>Developed by Dhaval Saxena</p>
-        </div>
-      </header>
+    <div className={styles.shell}>
+      <div className={styles.bgMesh} aria-hidden />
+      <div className={styles.bgGlowLeft} aria-hidden />
+      <div className={styles.bgGlowRight} aria-hidden />
 
-      <main className={styles.card}>
-        {info ? (
-          <ul className={styles.stats}>
-            <li>
-              <span className={styles.statLabel}>Per request</span>
-              <strong>
-                {info.dripAmount} {info.tokenSymbol}
-              </strong>
-            </li>
-            <li>
-              <span className={styles.statLabel}>Cooldown</span>
-              <strong>{info.cooldownMinutes} min / wallet</strong>
-            </li>
-            <li>
-              <span className={styles.statLabel}>
-                {info.mintMode ? "Total supply" : "Faucet balance"}
+      <div className={styles.layout}>
+        <header className={styles.topBar}>
+          <div className={styles.brand}>
+            <span className={styles.brandIcon}>
+              <DropletIcon />
+            </span>
+            <div>
+              <span className={styles.brandName}>USDC Faucet</span>
+              <span className={styles.brandTag}>Testnet</span>
+            </div>
+          </div>
+          <p className={styles.topTagline}>Get test USDC for development and demos</p>
+          <span className={styles.creditBadge}>Developed by Dhaval Saxena</span>
+        </header>
+
+        <section className={styles.hero}>
+          <h1 className={styles.heroTitle}>USDC Faucet</h1>
+          <p className={styles.heroSubtitle}>Request free USDC on the faucet and start building!</p>
+        </section>
+
+        <main className={styles.glassCard}>
+          {info ? (
+            <div className={styles.statsRow}>
+              <article className={styles.statTile}>
+                <span className={`${styles.statIcon} ${styles.statIconBlue}`}>
+                  <BoltIcon />
+                </span>
+                <span className={styles.statLabel}>Per request</span>
+                <strong className={styles.statValue}>
+                  {info.dripAmount.toLocaleString()} {info.tokenSymbol}
+                </strong>
+              </article>
+              <article className={styles.statTile}>
+                <span className={`${styles.statIcon} ${styles.statIconPurple}`}>
+                  <ClockIcon />
+                </span>
+                <span className={styles.statLabel}>Cooldown</span>
+                <strong className={styles.statValue}>{info.cooldownMinutes} min / wallet</strong>
+              </article>
+              <article className={styles.statTile}>
+                <span className={`${styles.statIcon} ${styles.statIconGreen}`}>
+                  <WalletIcon />
+                </span>
+                <span className={styles.statLabel}>Faucet balance</span>
+                <strong className={styles.statValue} title={balanceLabel}>
+                  {balanceLabel} {info.tokenSymbol}
+                </strong>
+              </article>
+              <article className={styles.statTile}>
+                <span className={`${styles.statIcon} ${styles.statIconOrange}`}>
+                  <LinkIcon />
+                </span>
+                <span className={styles.statLabel}>Chain ID</span>
+                <strong className={styles.statValue}>{info.chainId}</strong>
+              </article>
+              <article className={styles.statTile}>
+                <span className={`${styles.statIcon} ${styles.statIconTeal}`}>
+                  <UsersIcon />
+                </span>
+                <span className={styles.statLabel}>Wallets funded</span>
+                <strong className={styles.statValue}>{info.totalWalletsFunded.toLocaleString()}</strong>
+              </article>
+            </div>
+          ) : (
+            <p className={styles.loadingText}>Loading faucet details…</p>
+          )}
+
+          <div className={styles.walletBlock}>
+            <div className={styles.walletHeading}>
+              <span className={styles.walletHeadingIcon}>
+                <WalletIcon />
               </span>
-              <strong>
-                {Number(info.faucetTokenBalance).toLocaleString(undefined, {
-                  maximumFractionDigits: 2,
-                })}{" "}
-                {info.tokenSymbol}
-              </strong>
-            </li>
-            <li>
-              <span className={styles.statLabel}>Chain ID</span>
-              <strong>{info.chainId}</strong>
-            </li>
-            <li>
-              <span className={styles.statLabel}>Wallets funded</span>
-              <strong>{info.totalWalletsFunded.toLocaleString()}</strong>
-            </li>
-          </ul>
-        ) : (
-          <p className={styles.muted}>Loading faucet details…</p>
-        )}
+              <div>
+                <h2 className={styles.walletTitle}>Your wallet address</h2>
+                <p className={styles.walletHint}>Paste your wallet address to request USDC</p>
+              </div>
+            </div>
 
-        <label className={styles.label} htmlFor="wallet">
-          Paste your wallet address
-        </label>
-        <input
-          id="wallet"
-          className={styles.input}
-          placeholder="0x…"
-          value={address}
-          onChange={(e) => setAddress(e.target.value.trim())}
-          spellCheck={false}
-          autoComplete="off"
-        />
+            <div className={styles.inputWrap}>
+              <input
+                id="wallet"
+                className={styles.input}
+                placeholder="0x…"
+                value={address}
+                onChange={(e) => setAddress(e.target.value.trim())}
+                spellCheck={false}
+                autoComplete="off"
+              />
+              <button
+                type="button"
+                className={styles.pasteBtn}
+                onClick={() => pasteFromClipboard()}
+                title="Paste from clipboard"
+              >
+                Paste
+              </button>
+            </div>
 
-        {cooldownText && <p className={styles.cooldown}>{cooldownText}</p>}
+            {cooldownText && <p className={styles.cooldown}>{cooldownText}</p>}
 
-        <button
-          type="button"
-          className={styles.primary}
-          disabled={loading || !info}
-          onClick={() => void onDrip()}
-        >
-          {loading ? "Sending…" : "Request USDC"}
-        </button>
+            <button
+              type="button"
+              className={styles.cta}
+              disabled={loading || !info}
+              onClick={() => void onDrip()}
+            >
+              <span className={styles.ctaLabel}>{loading ? "Sending…" : "Request USDC"}</span>
+              <ArrowRightIcon className={styles.ctaArrow} />
+              <DropletIcon className={styles.ctaDrop} />
+            </button>
+            <p className={styles.powered}>
+              <DropletIcon className={styles.poweredIcon} />
+              Powered by USDC
+            </p>
+          </div>
 
-        {status && (
-          <p className={status.type === "ok" ? styles.success : styles.error} role="status">
-            {status.text}
-          </p>
-        )}
+          {status && (
+            <p className={status.type === "ok" ? styles.success : styles.error} role="status">
+              {status.text}
+            </p>
+          )}
+        </main>
 
-      </main>
+        <footer className={styles.features}>
+          {[
+            { Icon: ShieldIcon, label: "Secure & reliable" },
+            { Icon: SparkIcon, label: "Fast & free" },
+            { Icon: CodeIcon, label: "Developer friendly" },
+            { Icon: GlobeIcon, label: "Multi-chain ready" },
+          ].map(({ Icon, label }) => (
+            <div key={label} className={styles.featurePill}>
+              <Icon className={styles.featureIcon} />
+              <span>{label}</span>
+            </div>
+          ))}
+        </footer>
+      </div>
     </div>
   );
 }
