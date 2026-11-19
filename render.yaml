@@ -1,9 +1,4 @@
-databases:
-  - name: usdc-faucet-db
-    plan: free
-    databaseName: usdc_faucet
-    user: usdc_faucet
-
+# Reuse your existing Render Postgres (e.g. bridge-sandbox-db): set DATABASE_URL on the web service.
 services:
   - type: web
     name: usdc-faucet

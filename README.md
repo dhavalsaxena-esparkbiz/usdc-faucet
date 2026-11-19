@@ -48,7 +48,7 @@ Optional: `DATABASE_URL` (Postgres — used on Render), `DATABASE_PATH` (SQLite 
 
 ### Wallet tracking
 
-Each successful drip stores the wallet in a `drips` table:
+Each successful drip stores the wallet in a `faucet_drips` table (safe to share one Postgres with other apps):
 
 | Column | Meaning |
 |--------|---------|
@@ -67,7 +67,7 @@ Each successful drip stores the wallet in a `drips` table:
 2. In Render, set **secret** env vars only:
    - `RPC_URL`
    - `FAUCET_PRIVATE_KEY`
-3. `render.yaml` includes a **free Postgres** database and wires `DATABASE_URL` automatically.
+3. Set `DATABASE_URL` to the same **Internal Database URL** as your other Render app (e.g. bridge-sandbox) if you share one free Postgres instance.
 4. `CHAIN_ID`, contract address, drip size, and `CORS_ORIGIN` are preset in `render.yaml`.
 5. After deploy, open `https://<your-service>.onrender.com` (free tier may sleep ~50s on first visit).
 
