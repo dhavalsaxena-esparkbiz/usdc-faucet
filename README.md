@@ -2,7 +2,7 @@
 
 Public web faucet that **transfers** dummy USDC from the faucet wallet (`transfer(to, amount)`) to any address (with per-address cooldown).
 
-Stack: React (Vite) + Express + viem + SQLite.
+Stack: React (Vite) + Express + viem + PostgreSQL (production) or SQLite (local).
 
 ## Prerequisites
 
@@ -44,7 +44,20 @@ See [`.env.example`](.env.example). Required:
 | `COOLDOWN_MINUTES` | Min minutes between drips per address |
 | `CORS_ORIGIN` | Frontend origin(s), comma-separated; use your public URL in prod |
 
-Optional: `DATABASE_PATH` (default `backend/data/faucet.db`), `VITE_API_URL` (only if frontend is hosted on another domain).
+Optional: `DATABASE_URL` (Postgres — used on Render), `DATABASE_PATH` (SQLite file when `DATABASE_URL` is unset), `VITE_API_URL` (only if frontend is hosted on another domain).
+
+### Wallet tracking
+
+Each successful drip stores the wallet in a `drips` table:
+
+| Column | Meaning |
+|--------|---------|
+| `address` | Wallet (unique — **wallets funded** count) |
+| `drip_count` | Times this wallet dripped (**total drips** = sum) |
+| `first_drip_at` / `last_drip_at` | Timestamps (ms) |
+| `last_tx_hash` | Latest transfer tx |
+
+`/api/info` returns `totalWalletsFunded` and `totalDripsSent`. Cooldown still uses `last_drip_at` per address.
 
 ## Deploy free on Render
 
@@ -54,8 +67,11 @@ Optional: `DATABASE_PATH` (default `backend/data/faucet.db`), `VITE_API_URL` (on
 2. In Render, set **secret** env vars only:
    - `RPC_URL`
    - `FAUCET_PRIVATE_KEY`
-3. `CHAIN_ID`, contract address, drip size, and `CORS_ORIGIN` are preset in `render.yaml`.
-4. After deploy, open `https://<your-service>.onrender.com` (free tier may sleep ~50s on first visit).
+3. `render.yaml` includes a **free Postgres** database and wires `DATABASE_URL` automatically.
+4. `CHAIN_ID`, contract address, drip size, and `CORS_ORIGIN` are preset in `render.yaml`.
+5. After deploy, open `https://<your-service>.onrender.com` (free tier may sleep ~50s on first visit).
+
+**Existing Render service:** Dashboard → **New PostgreSQL** → copy **Internal Database URL** into the web service env as `DATABASE_URL` → redeploy.
 
 Docker locally:
 
@@ -73,5 +89,5 @@ docker run --env-file .env -p 3000:3000 usdc-faucet
 ## Security notes
 
 - The private key lives only on the server.
-- Cooldown is tracked in SQLite (reset if the disk is wiped on free tiers).
+- Use **Postgres on Render** so wallet counts survive redeploys (SQLite is file-based and ephemeral on free web containers).
 - Add Turnstile or CAPTCHA before a public mainnet deployment if abuse is a concern.

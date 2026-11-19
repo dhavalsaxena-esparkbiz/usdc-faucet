@@ -7,13 +7,13 @@ import { fileURLToPath } from "node:url";
 import { isAddress } from "viem";
 import { z } from "zod";
 import { loadConfig } from "./config.js";
-import { countFundedWallets, getLastDrip, openDb, recordDrip } from "./db.js";
 import { createFaucetClients, getFaucetInfo, sendDrip } from "./faucet.js";
+import { createStore } from "./store/index.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const config = loadConfig();
 const clients = createFaucetClients(config);
-const db = openDb();
+const store = createStore();
 
 const app = express();
 app.use(express.json());
@@ -44,9 +44,11 @@ app.get("/api/health", (_req, res) => {
 app.get("/api/info", async (_req, res) => {
   try {
     const info = await getFaucetInfo(clients);
+    const stats = await store.getStats();
     res.json({
       ...info,
-      totalWalletsFunded: countFundedWallets(db),
+      totalWalletsFunded: stats.walletsFunded,
+      totalDripsSent: stats.totalDrips,
     });
   } catch (err) {
     console.error(err);
@@ -73,7 +75,7 @@ app.post("/api/drip", async (req, res) => {
 
   const normalized = address.toLowerCase();
   const cooldownMs = config.COOLDOWN_MINUTES * 60 * 1000;
-  const last = getLastDrip(db, normalized);
+  const last = await store.getLastDrip(normalized);
   const now = Date.now();
 
   if (last !== null && now - last < cooldownMs) {
@@ -87,7 +89,7 @@ app.post("/api/drip", async (req, res) => {
 
   try {
     const txHash = await sendDrip(clients, address);
-    recordDrip(db, normalized, txHash, now);
+    await store.recordDrip(normalized, txHash, now);
     res.json({ txHash, explorerNote: "Check your chain block explorer for confirmation." });
   } catch (err) {
     console.error(err);
@@ -96,13 +98,13 @@ app.post("/api/drip", async (req, res) => {
   }
 });
 
-app.get("/api/cooldown/:address", (req, res) => {
+app.get("/api/cooldown/:address", async (req, res) => {
   const { address } = req.params;
   if (!isAddress(address)) {
     res.status(400).json({ error: "Invalid address" });
     return;
   }
-  const last = getLastDrip(db, address);
+  const last = await store.getLastDrip(address);
   if (last === null) {
     res.json({ canDrip: true });
     return;
@@ -129,6 +131,18 @@ app.get("*", (req, res, next) => {
   });
 });
 
-app.listen(config.PORT, () => {
-  console.log(`USDC faucet listening on http://localhost:${config.PORT}`);
+async function main() {
+  await store.init();
+  app.listen(config.PORT, () => {
+    console.log(`USDC faucet listening on http://localhost:${config.PORT}`);
+  });
+}
+
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
+
+process.on("SIGTERM", () => {
+  void store.close();
 });
