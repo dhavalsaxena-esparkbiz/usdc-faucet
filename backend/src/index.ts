@@ -8,7 +8,7 @@ import { isAddress } from "viem";
 import { z } from "zod";
 import { loadConfig } from "./config.js";
 import { createFaucetClients, getFaucetInfo, sendDrip } from "./faucet.js";
-import { createStore } from "./store/index.js";
+import { createStore, getStoreBackend } from "./store/index.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const config = loadConfig();
@@ -38,7 +38,10 @@ const staticDir = path.join(__dirname, "..", "public");
 app.use(express.static(staticDir));
 
 app.get("/api/health", (_req, res) => {
-  res.json({ ok: true });
+  res.json({
+    ok: true,
+    database: getStoreBackend(),
+  });
 });
 
 app.get("/api/info", async (_req, res) => {

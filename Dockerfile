@@ -11,6 +11,7 @@ RUN npm run build
 FROM node:22-bookworm-slim
 WORKDIR /app
 ENV NODE_ENV=production
+# DATABASE_URL must be set at runtime on Render (not baked into the image).
 RUN apt-get update && apt-get install -y python3 make g++ && rm -rf /var/lib/apt/lists/*
 COPY package.json package-lock.json* ./
 COPY backend/package.json backend/

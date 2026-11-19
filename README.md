@@ -90,4 +90,5 @@ docker run --env-file .env -p 3000:3000 usdc-faucet
 
 - The private key lives only on the server.
 - Use **Postgres on Render** so wallet counts survive redeploys (SQLite is file-based and ephemeral on free web containers).
+- If **Wallets Funded** resets to `0` after sleep/redeploy, the container likely ran **without** `DATABASE_URL` and used SQLite. Check `GET /api/health` → `"database": "postgres"` (not `"sqlite"`).
 - Add Turnstile or CAPTCHA before a public mainnet deployment if abuse is a concern.
